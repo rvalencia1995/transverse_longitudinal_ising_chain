@@ -70,6 +70,7 @@ generaring_function_sim_size( vector<double> &singleGreal , vector<double> &sing
 
 		ITensor Sx = op(sites, "Sx", start );
 		ITensor Obs = expHermitian(Sx , theta * 1_i  ); 
+
 		ITensor Meas;
 		
         Meas = (*psi)(1);
@@ -81,15 +82,15 @@ generaring_function_sim_size( vector<double> &singleGreal , vector<double> &sing
 					
 		else
 			{
-			Meas *= (*psi)(start) * op(sites,"Id",start) ;
-			for( int row = 1 ; row <= size ; row++ )
+			// Meas *= (*psi)(start) * op(sites,"Id",start) ;
+			for( int row = 0 ; row <= size ; row++ )
 				{
 				Sx = op(sites,"Sx", start + row);
 				Obs = expHermitian(Sx , theta * 1_i  ); 
 				Meas *= (*psi)(start + row) ;
 				Meas *= Obs ;
 				}
-		
+
 			}
         for( int j = start + size + 1 ; j <= N ; j++) Meas *= (*psi)(j) * op(sites,"Id",j);
 		
@@ -111,8 +112,8 @@ measure_generating_function( MPO* rho , const SpinHalf sites , int N , int maxLe
 	
 	stringstream save_real_two , save_imag_two;
 	
-	save_real_two << "Termal_N" << N << "hx_" << hx << "_hz_" << hz << "_GF_real.dat";
-	save_imag_two << "Termal_N" << N << "hx_" << hx << "_hz_" << hz << "_GF_imag.dat";
+	save_real_two << "Termal_N" << N << "_hx_" << hx << "_hz_" << hz << "_GF_real.dat";
+	save_imag_two << "Termal_N" << N << "_hx_" << hx << "_hz_" << hz << "_GF_imag.dat";
 
 	if( fileExists( save_real_two.str() ) == false)
 		{
